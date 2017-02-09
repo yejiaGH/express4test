@@ -16,11 +16,13 @@ module.exports = {
 		this.store();
 	},
 	del(index){
-		repos[index] = null;
+		// repos[index] = null;
+		repos.splice(index, 1);
 		this.store();
 	},
 	update(index,newArticle){
-		repos[index] = newArticle;
+		// repos[index] = newArticle;
+		repos.splice(index,1,newArticle);
 		this.store();
 	}
 };

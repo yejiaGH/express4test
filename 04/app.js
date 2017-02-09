@@ -5,8 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var db = require('./db');
+
+// var index = require('./routes/index');
+// var users = require('./routes/users');
 
 var app = express();
 
@@ -22,8 +24,37 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.get('/', function(req, res) {
+	res.render('index', {
+		list: db.list
+	});
+});
+
+app.post('/add', function(req, res) {
+	db.add({title: req.body.title});
+	res.redirect('/');
+});
+
+app.get('/get/:index', function(req, res) {
+	var index = req.params.index;
+	console.log(index);
+	var article = db.get(index);
+	res.send(article);
+});
+
+app.get('/del', function(req, res) {
+	let index = req.query.index;
+	db.del(index);
+	res.redirect('/');
+});
+
+app.post('/update', function(req, res) {
+	var title = req.body.title;
+	var index = req.body.index;
+	console.log(index, title)
+	db.update(index, {title});
+	res.redirect('/');
+})
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
