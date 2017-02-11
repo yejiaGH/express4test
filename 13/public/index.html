@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<script src='//cdn.bootcss.com/jquery/2.1.4/jquery.min.js'></script>
+</head>
+<body>
+	<!-- <form method="post" action="/?__method=search">
+		<input type="hidden" />
+		<input type="submit" />
+	</form> -->
+	<!-- <form method="get" action="/">
+		<input type="hidden" name="__method" value="search" />
+		<input type="submit" />
+	</form> -->
+	<!-- <form method="post" action="/">
+		<input type="hidden" name="__method" value="search" />
+		<input type="submit" />
+	</form> -->
+	<button id="test">test</button>
+	<script>
+		$('#test')[0].onclick = function() {
+			window.alert('test');
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function (result) {
+				// body...
+				console.log(this.responseText);
+			}
+			xhr.open('post', '/', true);
+			xhr.setRequestHeader('X-HTTP-Method-Override', 'search');
+			xhr.send();
+		}
+		
+	</script>
+</body>
+</html>
